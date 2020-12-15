@@ -7,13 +7,16 @@
     <groupId>io.github.agamgk1</groupId>
     <artifactId>WebAppCourse</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>11</java.version>
         <junit.version>4.12</junit.version>
+        <jetty.version>9.4.35.v20201120</jetty.version>
     </properties>
 
+    <!-- tests -->
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -21,6 +24,50 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- http servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-plus</artifactId>
+            <version>9.4.35.v20201120</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-annotations</artifactId>
+            <version>9.4.35.v20201120</version>
+        </dependency>
+
+        <!-- Logger slf4j -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+        <!-- database -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.200</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.4.25.Final</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -32,7 +79,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>io.github.agamgk.HelloServlet</mainClass>
+                            <mainClass>io.github.agamgk.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
@@ -45,6 +92,20 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.4.35.v20201120</version>
+            </plugin>
+            <plugin>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-maven-plugin</artifactId>
+            <version>7.3.1</version>
+            <configuration>
+                <url>jdbc:h2:file:./db</url>
+                <user>sa</user>
+            </configuration>
             </plugin>
         </plugins>
     </build>
