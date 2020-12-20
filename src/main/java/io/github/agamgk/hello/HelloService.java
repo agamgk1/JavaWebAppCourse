@@ -1,5 +1,7 @@
-package io.github.agamgk;
+package io.github.agamgk.hello;
 
+import io.github.agamgk.lang.Lang;
+import io.github.agamgk.lang.LangRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,15 +24,9 @@ class HelloService {
         this.repository = repository;
     }
     // Bardziej szczegółowa wersja metody prepareGreeting
-    String prepareGreeting(String name, String lang) {
+    String prepareGreeting(String name, Integer langId) {
         //zamian stringa na liczbe lub przypisanie id z FALLBACK_LANG
-        Integer langId;
-        try {
-            langId = Optional.ofNullable(lang).map(Integer::valueOf).orElse(FALLBACK_LANG.getId());
-        } catch (NumberFormatException e) {
-            logger.warn("Non-numeric Language Id used " +lang);
-            langId = FALLBACK_LANG.getId();
-        }
+        langId = Optional.ofNullable(langId).orElse(FALLBACK_LANG.getId());
         var welcomeMsg = repository.findById(langId).orElse(FALLBACK_LANG).getWelcomeMsg();
         var nameToWelcome = Optional.ofNullable(name).orElse(FALLBACK_NAME);
         return welcomeMsg + " " + nameToWelcome;

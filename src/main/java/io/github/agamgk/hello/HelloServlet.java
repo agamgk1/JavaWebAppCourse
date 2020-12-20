@@ -1,4 +1,4 @@
-package io.github.agamgk;
+package io.github.agamgk.hello;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,12 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Optional;
 
 //klasa obsługująca protokół Http
 //HttpServlet - dependency z mavena
 //Servlet jest inicjowany przez Jetty
 //adnotacja do konfiguracji servletu
-@WebServlet(name = "Hello",urlPatterns = {"/api/*"})
+@WebServlet(name = "Hello",urlPatterns = {"/api"})
 public class HelloServlet extends HttpServlet {
     //parametry do wpisu w adresie URL
     public static final String NAME_PARAM = "name";
@@ -38,7 +39,12 @@ public class HelloServlet extends HttpServlet {
         // przypsanie parametru z klasy HelloService (parametr bedzie wpisany w URL)
         var name = req.getParameter(NAME_PARAM);
         var lang = req.getParameter(LANG_PARAM);
-        resp.getWriter().write(service.prepareGreeting(name, lang));
+        Integer langId = null;
+        try { langId = Integer.valueOf(lang);
+        } catch (NumberFormatException e) {
+            logger.warn("Non-numeric Language Id used " + lang);
+        }
+        resp.getWriter().write(service.prepareGreeting(name, langId));
     }
 }
 

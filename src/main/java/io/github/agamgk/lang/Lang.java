@@ -1,4 +1,4 @@
-package io.github.agamgk;
+package io.github.agamgk.lang;
 
 //Encja - reprezentacja tabeli db jako klasy
 
@@ -11,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "languages")
-class Lang {
+public class Lang {
     @Id
     @GeneratedValue(generator="inc")
     @GenericGenerator(name="inc", strategy = "increment")

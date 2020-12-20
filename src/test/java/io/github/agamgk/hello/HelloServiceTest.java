@@ -1,11 +1,14 @@
-package io.github.agamgk;
+package io.github.agamgk.hello;
 
+
+import io.github.agamgk.lang.Lang;
+import io.github.agamgk.lang.LangRepository;
 import org.junit.Test;
 
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+
 
 public class HelloServiceTest {
     public static final String  WELCOME = "Hello";
@@ -16,7 +19,7 @@ public class HelloServiceTest {
         var mockRepository = alwaysReturningHelloRepository();
         var SUT = new HelloService(mockRepository);
         //when
-        var result = SUT.prepareGreeting(null, "-1");
+        var result = SUT.prepareGreeting(null, -1);
         //then
         assertEquals(WELCOME +" " + HelloService.FALLBACK_NAME, result);
     }
@@ -28,7 +31,7 @@ public class HelloServiceTest {
         var SUT = new HelloService(mockRepository);
         String name = "test";
         //when
-        var result = SUT.prepareGreeting(name, "-1");
+        var result = SUT.prepareGreeting(name, -1);
         //then
         assertEquals(WELCOME+ " " + name, result);
     }
@@ -44,7 +47,7 @@ public class HelloServiceTest {
         assertEquals(FALLBACK_IDWELCOME + " " + HelloService.FALLBACK_NAME, result);
     }
 
-    @Test
+    /*@Test
     public void test_prepareGreeting_textLanguage_returnsGreetingWithFallbackIdLang() {
         //given
         var mockRepository = fallbackLangIdRepository();
@@ -53,19 +56,19 @@ public class HelloServiceTest {
         var result = SUT.prepareGreeting(null, "abc");
         //then
         assertEquals(FALLBACK_IDWELCOME + " " + HelloService.FALLBACK_NAME, result);
-    }
+    }*/
     @Test
     public void test_prepareGreeting_nonExistingLanguage_returnsGreetingWithFallbackLang() {
         //given
         var mockRepository = new LangRepository() {
             @Override
-            Optional<Lang> findById(Integer id) {
+            public Optional<Lang> findById(Integer id) {
                 return Optional.empty();
             }
         };
         var SUT = new HelloService(mockRepository);
         //when
-        var result = SUT.prepareGreeting(null, "-1");
+        var result = SUT.prepareGreeting(null, -1);
         //then
         assertEquals(HelloService.FALLBACK_LANG.getWelcomeMsg() + " " + HelloService.FALLBACK_NAME, result);
     }
@@ -74,7 +77,7 @@ public class HelloServiceTest {
     private LangRepository alwaysReturningHelloRepository() {
         return new LangRepository() {
             @Override
-            Optional<Lang> findById(Integer id) {
+            public Optional<Lang> findById(Integer id) {
                 return Optional.of(new Lang(null, WELCOME, null));
             }
         };
@@ -83,7 +86,7 @@ public class HelloServiceTest {
     private LangRepository fallbackLangIdRepository() {
         return new LangRepository() {
             @Override
-            Optional<Lang> findById(Integer id) {
+            public Optional<Lang> findById(Integer id) {
                 if (id.equals(HelloService.FALLBACK_LANG.getId())) {
                     return Optional.of(new Lang(null, FALLBACK_IDWELCOME, null));
                 }

@@ -7,7 +7,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 //klasa ktora odpowie za tworzenie fabryki sesji itp potrzebnych do pracy z hibernate. Dodatkowo pozwoli pozystkiwac w repozytoriach SessionFactory
 //SessionFactory - dzieki temu mozemy stworzyc sesje do bazy danych. W czasie trwania sesji Mozna wykonywac zapytania do bazy, wstawiac wiersze itp
-class HibernateUtil {
+public class HibernateUtil {
     public static final SessionFactory sessionFactory = buildSessionFactory();
 
     //Częśc skopiowana z Hibernate toutorial - annotations
@@ -18,7 +18,7 @@ class HibernateUtil {
         }
     }
 
-    static SessionFactory getSessionFactory() {
+    public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 

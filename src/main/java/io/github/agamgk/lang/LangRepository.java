@@ -1,14 +1,24 @@
-package io.github.agamgk;
+package io.github.agamgk.lang;
 
-import java.util.ArrayList;
+import io.github.agamgk.HibernateUtil;
+
 import java.util.List;
 import java.util.Optional;
 
 //repozytorium
-class LangRepository {
+public class LangRepository {
 
+    List<Lang> findAll() {
+        var session = HibernateUtil.getSessionFactory().openSession();
+        var transaction = session.beginTransaction();
+        // pozwala odczytac wszystkie wpisy
+        var result = session.createQuery("from Lang", Lang.class).list();
+        transaction.commit();
+        session.close();
+        return result;
+    }
     //Optional dzięki temu będzie wiadomo że coś może się nie udać w czasie wywoływania metody
-    Optional<Lang> findById(Integer id) {
+    public Optional<Lang> findById(Integer id) {
         //otwiera nowa sesje kominukacji z baza danych
        var session = HibernateUtil.getSessionFactory().openSession();
        //tworzy nowa tranzakcje
@@ -20,4 +30,8 @@ class LangRepository {
         session.close();
         return Optional.ofNullable(result);
     }
+
+
+
+
 }
