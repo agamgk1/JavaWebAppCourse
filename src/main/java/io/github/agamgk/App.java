@@ -27,14 +27,13 @@ public class App {
                         new JettyWebXmlConfiguration()
                 });
         webapp.setAttribute("org.eclipse.jetty.server.webapp.ContainerIncludeJarPattern", ".*/classes/.*");
-    //    webapp.addServlet(HelloServlet.class, "/app/*");
         var server = new Server(8080);
         server.setHandler(webapp);
         //nasłuchiwacz na konkretne zdarzenie serwera Jetty
         server.addLifeCycleListener(new AbstractLifeCycle.AbstractLifeCycleListener() {
             @Override
             public void lifeCycleStopped(LifeCycle event) {
-                // w momencie kiedy Jetty zatrzymuje sie to wołamy
+                // w momencie kiedy Jetty zatrzymuje sie to wołamy HibernateUtil.close()
                 HibernateUtil.close();
             }
         });
